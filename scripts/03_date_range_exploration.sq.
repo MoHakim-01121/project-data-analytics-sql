@@ -1,0 +1,34 @@
+/*
+===============================================================================
+Eksplorasi Rentang Tanggal
+===============================================================================
+Tujuan:
+    - Menentukan batas waktu dari data utama.
+    - Memahami rentang data historis yang tersedia.
+
+Fungsi SQL yang Digunakan:
+    - MIN()
+    - MAX()
+    - DATEDIFF()
+===============================================================================
+*/
+
+
+-- Menemukan tanggal pesanan pertama dan terakhir
+-- Menghitung berapa tahun data penjualan yang tersedia
+SELECT
+    MIN(order_date) AS first_order,
+    MAX(order_date) AS last_order,
+    DATEDIFF(MONTH, MIN(order_date), MAX(order_date)) AS order_range_months
+FROM gold.fact_sales;
+
+-- Menemukan pelanggan termuda dan tertua berdasarkan tanggal lahir
+SELECT
+    MIN(birthdate) AS youngest,
+    DATEDIFF(YEAR, MIN(birthdate), GETDATE()) AS oldest,
+    MAX(birthdate) AS oldest,
+    DATEDIFF(YEAR, MAX(birthdate), GETDATE()) AS youngest
+FROM gold.dim_customers;
+-- Hasil:
+-- 1916-02-10 (Pelanggan tertua lahir pada tahun ini) -> 109 tahun
+-- 1986-06-25 (Pelanggan termuda lahir pada tahun ini) -> 39 tahun
